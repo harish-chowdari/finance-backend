@@ -22,7 +22,7 @@ const AddExpenses = require("./Routes/AddexpensesRoutes")
 app.use("/api", AddExpenses)
 
 
-app.use("/api", (req, res) => {
+app.use("/", (req, res) => {
     res.send("Hello World")
 })
 
