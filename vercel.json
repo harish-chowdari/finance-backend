@@ -5,7 +5,7 @@
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "http://localhost:3000"
+            "value": "https://animated-mochi-188972.netlify.app/"
           },
           {
             "key": "Access-Control-Allow-Methods",
