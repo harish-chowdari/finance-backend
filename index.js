@@ -1,41 +1,37 @@
 const cors = require('cors');
 const express = require('express');
+const dotenv = require("dotenv");
+
 const app = express();
+dotenv.config();
 
 // Allow CORS from localhost:3000
 app.use(cors({
   origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // If you need to include cookies or HTTP authentication
+  credentials: true,
 }));
 
-// Other app.use() configurations
+// Parse incoming request bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// Connect to your database
+require('./db');
 
-const dotenv = require("dotenv")
-dotenv.config()
+// Register your routes
+const AuthRoutes = require('./Routes/AuthRoutes'); 
+const OtpRouter = require('./Routes/OtpRoutes');
+const AddExpenses = require('./Routes/AddexpensesRoutes');
 
+app.use('/api', AuthRoutes);
+app.use('/api', OtpRouter);
+app.use('/api', AddExpenses);
 
+// Set the port
+const port = process.env.PORT || 3000;
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-require("./db")
-
-const AuthRoutes = require("./Routes/AuthRoutes") 
-app.use("/api", AuthRoutes)
- 
-const OtpRouter = require("./Routes/OtpRoutes")
-app.use("/api", OtpRouter)
-
-const AddExpenses = require("./Routes/AddexpensesRoutes")
-app.use("/api", AddExpenses)
-
-
-
-const port = process.env.PORT || 3000
-
-
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
-  });
-
+});
