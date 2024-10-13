@@ -7,6 +7,7 @@ dotenv.config()
 const cors = require("cors")
 app.use(cors())
 
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 require("./db")
@@ -19,6 +20,11 @@ app.use("/api", OtpRouter)
 
 const AddExpenses = require("./Routes/AddexpensesRoutes")
 app.use("/api", AddExpenses)
+
+
+app.use("/api", (req, res) => {
+    res.send("Hello World")
+})
 
 
 
