@@ -28,7 +28,7 @@ app.use('/api', AuthRoutes);
 app.use('/api', OtpRouter);
 app.use('/api', AddExpenses);
 
-app.use("/", (req, res) => {
+app.use("/api", (req, res) => {
   res.send("Hello World!");
 });
 
