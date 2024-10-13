@@ -6,20 +6,21 @@ dotenv.config();
 
 const cors = require("cors");
 
-// Update your CORS options
+// CORS options: allow localhost and deployed frontend
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://your-frontend-app.vercel.app'], // Add both your local and production frontends
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // If you are using cookies, sessions, or other credentials
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, SmartTVs) might choke on 204
+  origin: ['http://localhost:3000', 'https://your-frontend-app.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
-// Use the cors middleware globally
+// Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Enable preflight requests for all routes (handle OPTIONS method)
+// Explicitly handle preflight OPTIONS requests globally
 app.options('*', cors(corsOptions));
 
+// Middleware to parse incoming requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
