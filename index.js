@@ -28,6 +28,10 @@ app.use('/api', AuthRoutes);
 app.use('/api', OtpRouter);
 app.use('/api', AddExpenses);
 
+app.use("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 // Set the port
 const port = process.env.PORT || 3000;
 
