@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // CORS options: allow localhost and deployed frontend
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://your-frontend-app.vercel.app'],
+  origin: ['http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS
   credentials: true,
   optionsSuccessStatus: 200
