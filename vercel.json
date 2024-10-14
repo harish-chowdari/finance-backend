@@ -5,7 +5,7 @@
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "https://animated-mochi-188972.netlify.app/"
+            "value": "https://finance-frontend-pi.vercel.app/"
           },
           {
             "key": "Access-Control-Allow-Methods",

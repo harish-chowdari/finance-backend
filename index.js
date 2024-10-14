@@ -7,7 +7,7 @@ dotenv.config();
 
 // Allow CORS from localhost:3000
 app.use(cors({
-  origin: 'https://animated-mochi-188972.netlify.app/',
+  origin: 'https://finance-frontend-pi.vercel.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
