@@ -9,11 +9,11 @@ async function SigUp(req, res) {
     const isUserExist = await Schema.findOne({ email: email });
 
     if (isUserExist) { 
-      return res.status(400).json({ AlreadyExist: "Account already exists" });
+      return res.status(200).json({ AlreadyExist: "Account already exists" });
     }
 
     if (!name || !email || !password || !diseases || diseases.length === 0) {
-      return res.status(400).json({ EnterAllDetails: "Please fill all the fields" });
+      return res.status(200).json({ EnterAllDetails: "Please fill all the fields" });
     }
 
     const processedDiseases = diseases.map((disease) => {
@@ -55,16 +55,16 @@ async function Login(req, res) {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ EnterAllDetails: "Please fill all the fields" });
+      return res.status(200).json({ EnterAllDetails: "Please fill all the fields" });
     }
 
     const isUserExist = await Schema.findOne({ email: email });
     if (!isUserExist) {
-      return res.status(404).json({ NotExist: "User does not exist" });
+      return res.status(200).json({ NotExist: "User does not exist" });
     }
 
     if (password !== isUserExist.password) {
-      return res.status(401).json({ Incorrect: "Incorrect password" });
+      return res.status(200).json({ Incorrect: "Incorrect password" });
     }
 
     return res.status(200).json(isUserExist);
@@ -79,13 +79,13 @@ const deleteAcc = async (req, res) => {
     const { userId } = req.params;
 
     if (!userId) {
-      return res.status(400).json({ userIdRequired: "User ID is required" });
+      return res.status(200).json({ userIdRequired: "User ID is required" });
     }
 
     const user = await Schema.findByIdAndDelete(userId);
 
     if (!user) {
-      return res.status(404).json({ userIdNotFound: "User not found" });
+      return res.status(200).json({ userIdNotFound: "User not found" });
     }
 
     return res.status(200).json({ deleted: "Account deleted successfully" });
@@ -101,13 +101,13 @@ const editAcc = async (req, res) => {
 
   try {
     if (!userId) {
-      return res.status(400).json({ userIdRequired: "User ID is required" });
+      return res.status(200).json({ userIdRequired: "User ID is required" });
     }
     
     const user = await Schema.findById(userId);
     
     if (!user) {
-      return res.status(404).json({ userIdNotFound: "User not found" });
+      return res.status(200).json({ userIdNotFound: "User not found" });
     }
     
     user.name = name;
