@@ -6,7 +6,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors({
-  origin: 'https://finance-frontend-x1ey.vercel.app',
+  origin: 'https://financefrontend.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
