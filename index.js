@@ -7,7 +7,7 @@ dotenv.config()
 const cors = require("cors")
 
 app.use(cors({
-  origin: 'https://financefrontend.vercel.app',
+  origin: 'https://finance-tracker-pi-eight.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
