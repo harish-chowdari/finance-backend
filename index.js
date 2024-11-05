@@ -5,10 +5,17 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 const cors = require("cors")
-app.use(cors())
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(cors({
+  origin: 'https://financefrontend.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 require("./db")
 
 const AuthRoutes = require("./Routes/AuthRoutes") 
