@@ -12,17 +12,22 @@ async function SigUp(req, res) {
       return res.status(200).json({ AlreadyExist: "Account already exists" });
     }
 
-    if (!name || !email || !password || !diseases || diseases.length === 0) {
+    if (!name || !email || !password || diseases.length === 0) {
       return res.status(200).json({ EnterAllDetails: "Please fill all the fields" });
     }
 
     const processedDiseases = diseases.map((disease) => {
       let avoid = [], use = [];
-      // Existing logic remains unchanged
-      if (disease === "deuteranopia" || disease === "protanopia") {
+ 
+      if (disease === "deuteranopia") {
         avoid = ["red", "green", "brown", "orange"];
         use = ["blue", "yellow", "purple", "gray"];
-      } else if (disease === "tritanopia") {
+      } else if (disease === "protanopia") {
+        avoid = ["red", "green", "brown", "orange"];
+        use = ["blue", "yellow", "purple", "gray"];
+      }
+
+      else if (disease === "tritanopia") {
         avoid = ["blue", "yellow", "green"];
         use = ["red", "pink", "gray", "black"];
       } else if (disease === "monochromacy") {
@@ -43,12 +48,13 @@ async function SigUp(req, res) {
     });
 
     const d = await data.save();
-    return res.status(201).json(d); // Use 201 for resource creation
+    return res.json(d);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
+
 
 async function Login(req, res) {
   try {
@@ -67,58 +73,112 @@ async function Login(req, res) {
       return res.status(200).json({ Incorrect: "Incorrect password" });
     }
 
-    return res.status(200).json(isUserExist);
+    return res.json(isUserExist);
   } catch (error) { 
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
+
 const deleteAcc = async (req, res) => {
+
   try {
+
     const { userId } = req.params;
 
-    if (!userId) {
+    if(!userId)
+    {
       return res.status(200).json({ userIdRequired: "User ID is required" });
     }
 
     const user = await Schema.findByIdAndDelete(userId);
 
-    if (!user) {
+    if(!user)
+    {
       return res.status(200).json({ userIdNotFound: "User not found" });
     }
 
     return res.status(200).json({ deleted: "Account deleted successfully" });
+
   } catch (error) {
+
     console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+
   }
+
+
+  
+
 }
 
+
+
+// edit account
 const editAcc = async (req, res) => {
+
   const { userId } = req.params;
+
   const { name } = req.body;
 
-  try {
-    if (!userId) {
-      return res.status(200).json({ userIdRequired: "User ID is required" });
-    }
+  try{
+    if(!userId)
+      {
+        return res.status(200).json({ userIdRequired: "User ID is required" });
+      }
     
-    const user = await Schema.findById(userId);
+      const user = await Schema.findById(userId);
     
-    if (!user) {
-      return res.status(200).json({ userIdNotFound: "User not found" });
-    }
+      if(!user)
+      {
+        return res.status(200).json({ userIdNotFound: "User not found" });
+      }
     
-    user.name = name;
-    await user.save();
+      user.name = name;
+      user.expensesLimit = req.body.expensesLimit;
+
+      if(req.body.expensesLimit !== user.expensesLimit)
+      {
+        res.status(200).json({ expensesLimitUpdated: "Account updated successfully" });
+      }      
+
+      // edit diseases
+      user.diseases.forEach((disease) => {
+        let avoid = [], use = [];
+ 
+        if (disease.disease === "deuteranopia") {
+          avoid = ["red", "green", "brown", "orange"];
+          use = ["blue", "yellow", "purple", "gray"];
+        } else if (disease.disease === "protanopia") {
+          avoid = ["red", "green", "brown", "orange"];
+          use = ["blue", "yellow", "purple", "gray"];
+        }
     
-    return res.status(200).json({ updated: "Account updated successfully" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+        else if (disease.disease === "tritanopia") {
+          avoid = ["blue", "yellow", "green"];
+          use = ["red", "pink", "gray", "black"];
+        } else if (disease.disease === "monochromacy") {
+          avoid = ["all colors"];
+          use = ["black", "white", "gray"];
+        }
+    
+        disease.avoid = avoid;
+        disease.use = use;
+      });
+    
+      await user.save();
+    
+      return res.status(200).json({ updated: "Account updated successfully" });
+    
   }
+
+  catch(error)
+  {
+    console.log(error);
+  }
+
 }
+
+
 
 module.exports = {
   SigUp,

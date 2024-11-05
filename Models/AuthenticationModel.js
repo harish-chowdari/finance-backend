@@ -13,6 +13,15 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String, 
     },
+    expensesLimit: {
+      type: Number,
+      default: 2000,
+    },
+    currentMonthExpenses: {
+      type: Number,
+      default: 0,
+    },
+    
     diseases: [
       {
         disease: { type: String },
@@ -33,7 +42,19 @@ const UserSchema = new mongoose.Schema(
         date: { type: Date },
       },
     ],
+
+    bills: [
+      {
+        billNumber: { type: String },
+        category: { type: String },
+        amount: { type: Number },
+        toBePaidOn: { type: Date },
+      },
+    ],
+    
   },
+
+ 
   { timestamps: true }
 );
 
